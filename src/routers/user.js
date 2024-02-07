@@ -27,4 +27,17 @@ router.post('/user', async (req, res) => {
   }
 })
 
+router.get('/user/verification', auth, async (req, res) => {
+  const user = req.user
+  const token = req.token
+
+  console.log(user)
+  console.log(token)
+
+  user.email_verified = true
+  user.save()
+  
+  res.send()
+})
+
 module.exports = router

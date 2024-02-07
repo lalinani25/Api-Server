@@ -45,6 +45,7 @@ const userSchema = new Schema({
     profile_pic: Buffer
 })
 
+
 userSchema.pre('save', async function(next) {
   
     const user = this
@@ -66,7 +67,8 @@ userSchema.pre('save', async function(next) {
   
     return token
   }
-  
+
+
 userSchema.methods.toJSON = function(){
 const user = this
   
