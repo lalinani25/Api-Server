@@ -27,6 +27,28 @@ router.post('/user', async (req, res) => {
   }
 })
 
+router.post('/user/login', async (req, res) => {
+  try {
+      console.log(req.body.email)
+      console.log(req.body.password)
+
+      const user = await User.findByCredentials(req.body.email, req.body.password)
+      console.log(user)
+
+      if (user.email_verified === true){
+          const token = await user.generateAuthToken()
+          res.status(200).send({ user, token })
+      }
+      else  { 
+          res.status(401).send("Email has not been verified.") 
+      }
+  }
+  catch (e) {
+      console.log(e)
+      res.status(500).send()
+  }
+})
+
 router.get('/user/verification', auth, async (req, res) => {
   const user = req.user
   const token = req.token
@@ -39,5 +61,7 @@ router.get('/user/verification', auth, async (req, res) => {
   
   res.send()
 })
+
+
 
 module.exports = router
