@@ -16,6 +16,24 @@ app.use(function (req, res, next) {
     next(); 
 }); 
 
+app.post('/fetch', async (req, res) => {
+    const code = req.body.code
+    console.log(code)
+    if (code == 7) {
+    res.send({
+    message: "POST with body object"
+    })
+    }
+    else if (code == 5) {
+    res.status(401).send({
+    message: "unauthorized: " + code
+    })
+    }
+    else {
+    res.status(400).send()
+    }
+   })
+   
 app.use(express.json()) 
 app.use(userRouter) 
 app.use(studyGroupRouter)
