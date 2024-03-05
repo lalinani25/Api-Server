@@ -57,5 +57,7 @@ studyGroupSchema.methods.toJSON = function () {
     return groupObject
 }
 
+studyGroupSchema.index({name: 'text', description:'text'})
+
 const StudyGroup = mongoose.model('StudyGroup', studyGroupSchema)
 module.exports = StudyGroup
