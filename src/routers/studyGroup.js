@@ -166,4 +166,42 @@ router.patch('/studygroup/:id', auth, async (req, res) => {
     }
 })
 
+
+router.delete('/studygroup/:id', auth, async(req,res) =>{
+
+    const user = req.user
+    const studyGroupId = req.params.id
+
+    let studyGroup = null
+
+    if(!mongoose.isValidObjectId(studyGroupId)){
+        res.status(400).send("Invalid request.")
+        return
+    }
+
+    try{
+        studyGroup = await StudyGroup.findById(studyGroupId)
+
+        if(!studyGroup){
+            res.status(400).send("Contest not found.")
+            return
+        }
+
+        if(!studyGroup.owner.equals(user._id)){
+            res.status(401).send()
+            return
+        }
+
+        await studyGroup.deleteOne()
+
+        res.send()
+    }
+
+    catch(e){
+        console.log(e)
+        res.status(500).send()
+    }
+
+})
+
 module.exports = router
