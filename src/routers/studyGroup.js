@@ -198,8 +198,8 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
 
     try {
 
-        if (req.query.hasOwnProperty('add_or_remove')) {
-            if (req.query.add_or_remove === 'add') {
+        if (req.query.hasOwnProperty('add')) {
+            if (req.query.add === 'add') {
                 if (studygroup.is_public === true) {
                     studygroup.participants.push(user._id)
                     await studygroup.save()
@@ -207,8 +207,8 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                 }
             }
         }
-       
-            if (req.query.add_or_remove === 'remove') {
+        if (req.query.hasOwnProperty('remove')) {
+            if (req.query.remove === 'remove') {
                 let participantsArray = studygroup.participants
                 console.log(participantsArray)
                 for (let i = 0; i < participantsArray.length; i++) {
@@ -225,7 +225,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                 await studygroup.save()
                 res.send(studygroup)
             }
-        
+        }
 
     }
     catch (e) {
