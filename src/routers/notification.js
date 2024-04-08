@@ -2,6 +2,7 @@ const express = require('express')
 const auth = require('../middleware/auth')
 const router = express.Router() 
 const Notification = require('../models/notifications')
+const User = require('../models/user')
 
 router.post('/notification', auth, async (req, res) => { 
     const user = req.user
@@ -13,6 +14,15 @@ router.post('/notification', auth, async (req, res) => {
         })
 
         await notification.save()
+
+        let receiver = notification.receiver
+        let notifications =[{}]
+        notifications.push(notification._id)
+        notifications.shift()
+        receiver.notifications = notifications
+        notification.receiver = receiver
+        console.log(notifications)
+
         res.status(201).send()
     }
     catch (error) {
