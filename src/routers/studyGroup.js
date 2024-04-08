@@ -307,7 +307,6 @@ router.get('/user/:id', auth, async (req, res) => {
       delete results[i]._id
       }
       console.log(results)
-
       res.send(results)
     } catch (e) {
       console.log(e)
