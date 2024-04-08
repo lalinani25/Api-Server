@@ -42,7 +42,13 @@ const userSchema = new Schema({
   },
   majors: [String],
   tokens: [String],
-  profile_pic: Buffer
+  profile_pic: Buffer,
+  notifications:[{
+    notifcation:{
+      type:Schema.Types.ObjectId, 
+      ref: 'Notification'
+    }
+  }]
 })
 
 

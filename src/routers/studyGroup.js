@@ -3,6 +3,7 @@ const auth = require('../middleware/auth')
 const mongoose = require('mongoose')
 
 const StudyGroup = require('../models/studygroup')
+const User = require('../models/user')
 
 const router = express.Router()
 
@@ -272,5 +273,48 @@ router.delete('/studygroup/:id', auth, async (req, res) => {
     }
 
 })
+
+router.get('/user/:id', auth, async (req, res) => {
+    const studyGroupID = req.params.id
+    let studygroup = undefined
+    if (!mongoose.isValidObjectId(studyGroupID)) {
+      res.status(400).send("Invalid object id")
+      return
+    }
+    try {
+      studygroup = await StudyGroup.findById(studyGroupID)
+      if (!studygroup) {
+        res.status(400).send('Invalid study group id')
+        return
+      }
+    }
+    catch (e) {
+      console.log(e)
+      res.status(500).send('Error finding study group')
+      return
+    }
+    
+    let participants = []
+    participants = studygroup.participants
+    console.log("participants: " + participants)
+    console.log("studygroup" + studygroup)
+  
+    try {
+      const results = []
+      for(let i = 0; i < participants.length; i++){
+      results[i] = await User.findById(participants[i])
+      console.log(results[i])
+      delete results[i]._id
+      }
+      console.log(results)
+      res.send(results)
+    } catch (e) {
+      console.log(e)
+      res.status(500).send()
+    }
+  
+  
+  })
+  
 
 module.exports = router
