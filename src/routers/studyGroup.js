@@ -54,7 +54,7 @@ router.get('/studygroups', auth, async (req, res) => {
 
     filter.$and.push({
         $or: [
-            { is_public: true },
+            //{ is_public: true },
             { owner: req.user._id }
         ]
     })
