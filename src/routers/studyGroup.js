@@ -220,7 +220,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                     let p = participantsArray[i]._id
 
                     if (user._id = p) {
-                       console.log("1")
+                        console.log("1")
                         participantsArray.splice(i, 1)
                     }
                 }
@@ -279,53 +279,63 @@ router.get('/user/:id', auth, async (req, res) => {
     const studyGroupID = req.params.id
     let studygroup = undefined
     if (!mongoose.isValidObjectId(studyGroupID)) {
-      res.status(400).send("Invalid object id")
-      return
+        res.status(400).send("Invalid object id")
+        return
     }
     try {
-      studygroup = await StudyGroup.findById(studyGroupID)
-      if (!studygroup) {
-        res.status(400).send('Invalid study group id')
-        return
-      }
+        studygroup = await StudyGroup.findById(studyGroupID)
+        if (!studygroup) {
+            res.status(400).send('Invalid study group id')
+            return
+        }
     }
     catch (e) {
-      console.log(e)
-      res.status(500).send('Error finding study group')
-      return
+        console.log(e)
+        res.status(500).send('Error finding study group')
+        return
     }
-    
+
     let participants = []
     participants = studygroup.participants
     console.log("participants: " + participants)
     console.log("studygroup" + studygroup)
-  
+
     let p_array = []
     let owner = await User.findById(studygroup.owner)
     let owner_name = owner.username
     console.log(owner_name)
     try {
-      const results = []
-      for(let i = 0; i < participants.length; i++){
-      results[i] = await User.findById(participants[i])
-      delete results[i]._id
-      console.log(results[i])
-      p_array[i] = {
-        owner: owner_name,
-        participants: results[i]
-      }
-      
-      }
-      console.log(results)
-      console.log(p_array)
-      res.send(p_array)
+        const results = []
+        if (participants.length != 0) {
+            for (let i = 0; i < participants.length; i++) {
+                results[i] = await User.findById(participants[i])
+                delete results[i]._id
+                console.log(results[i])
+                p_array[i] = {
+                    owner: owner_name,
+                    participants: results[i]
+                }
+
+            }
+            console.log(results)
+            console.log(p_array)
+            
+        }
+        else{
+            p_array[0] ={
+                owner: owner_name
+            }
+        }
+
+        res.send(p_array)
+        
     } catch (e) {
-      console.log(e)
-      res.status(500).send()
+        console.log(e)
+        res.status(500).send()
     }
-  
-  
-  })
-  
+
+
+})
+
 
 module.exports = router
