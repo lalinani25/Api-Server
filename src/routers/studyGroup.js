@@ -303,6 +303,7 @@ router.get('/user/:id', auth, async (req, res) => {
     let p_array = []
     let owner = await User.findById(studygroup.owner)
     let owner_name = owner.username
+    console.log(owner_name)
     try {
       const results = []
       for(let i = 0; i < participants.length; i++){
