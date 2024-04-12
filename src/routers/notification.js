@@ -17,10 +17,8 @@ router.post('/notification', auth, async (req, res) => {
         
         let receiver = await User.findById(notification.receiver)
         console.log(receiver)
-        notifications = [{}]
-        notifications.push(notification._id)
-        notifications.shift()
-        receiver.notifications = notifications
+        console.log(notification._id)
+        receiver.notifications.push(notification._id)
         console.log(receiver)
 
         await receiver.save()
