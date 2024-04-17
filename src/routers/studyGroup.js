@@ -304,6 +304,7 @@ router.get('/user/:id', auth, async (req, res) => {
     let owner = await User.findById(studygroup.owner)
     let owner_name = owner.username
     console.log(owner_name)
+  
     try {
         const results = []
         if (participants.length != 0) {
@@ -312,7 +313,7 @@ router.get('/user/:id', auth, async (req, res) => {
                 delete results[i]._id
                 console.log(results[i])
                 p_array[i] = {
-                    owner: owner_name,
+                    owner: owner,
                     participants: results[i]
                 }
 
@@ -323,7 +324,7 @@ router.get('/user/:id', auth, async (req, res) => {
         }
         else{
             p_array[0] ={
-                owner: owner_name
+                owner: owner
             }
         }
 
