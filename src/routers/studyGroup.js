@@ -221,7 +221,7 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
 
                     if (user._id = p) {
                         console.log("1")
-                        let index = participantsArray.indexOf(p)
+                        let index = participantsArray.indexOf(user.id)
                         participantsArray.splice(index, 1)
                     }
                 }
