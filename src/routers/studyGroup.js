@@ -209,24 +209,22 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                 }
             }
         }
-        if (req.query.hasOwnProperty('remove')) {
-            if (req.query.remove === 'remove') {
-                let participantsArray = studygroup.participants
-                console.log(participantsArray)
-                for (let i = 0; i < participantsArray.length; i++) {
-                    console.log("test")
-                    console.log(user._id)
-                    console.log(participantsArray[i]._id)
-                    let p = participantsArray[i]._id
+        if (req.query.add_or_remove === 'remove') {
+            let participantsArray = studygroup.participants
+            console.log(participantsArray)
+            for (let i = 0; i < participantsArray.length; i++) {
+                console.log("test")
+                console.log(user._id)
+                console.log(participantsArray[i]._id)
+                let p = participantsArray[i]._id
 
-                    if (user._id = p) {
-                       console.log("1")
-                        participantsArray.splice(i, 1)
-                    }
+                if (user._id = p) {
+                   console.log("1")
+                    participantsArray.splice(i, 1)
                 }
-                await studygroup.save()
-                res.send(studygroup)
             }
+            await studygroup.save()
+            res.send(studygroup)
         }
 
     }
