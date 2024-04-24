@@ -218,13 +218,10 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                     console.log(user._id)
                     console.log(participantsArray[i]._id)
                     let p = participantsArray[i]._id
-                    
-                    if (user._id = p._id) {
-                        console.log(participantsArray)
-                        delete participantsArray[i]
-                        studygroup.participants = participantsArray
-                        console.log(studyGroup.participants)
-                        
+
+                    if (user._id = p) {
+                       console.log("1")
+                        participantsArray.splice(i, 1)
                     }
                 }
                 await studygroup.save()
