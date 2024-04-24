@@ -221,8 +221,9 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                     
                     if (user._id = p._id) {
                         console.log(participantsArray)
-                        participantsArray.slice(i,1)
-                        console.log(participantsArray)
+                        delete participantsArray[i]
+                        studygroup.participants = participantsArray
+                        console.log(studyGroup.participants)
                         
                     }
                 }
