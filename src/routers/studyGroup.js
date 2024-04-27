@@ -222,7 +222,6 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                     if (user._id = p) {
                        console.log("1")
                         participantsArray.splice(i, 1)
-                        studyGroup.participants = participantsArray
                     }
                 }
                 await studygroup.save()
