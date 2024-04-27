@@ -200,8 +200,8 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
 
     try {
 
-        if (req.query.hasOwnProperty('add')) {
-            if (req.query.add === 'add') {
+        if (req.query.hasOwnProperty('add_or_remove')) {
+            if (req.query.add_or_remove === 'add') {
                 if (studygroup.is_public === true) {
                     studygroup.participants.push(user._id)
                     await studygroup.save()
@@ -209,23 +209,25 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
                 }
             }
         }
-        if (req.query.add_or_remove === 'remove') {
-            let participantsArray = studygroup.participants
-            console.log(participantsArray)
-            for (let i = 0; i < participantsArray.length; i++) {
-                console.log("test")
-                console.log(user._id)
-                console.log(participantsArray[i]._id)
-                let p = participantsArray[i]._id
+       
+            if (req.query.add_or_remove === 'remove') {
+                let participantsArray = studygroup.participants
+                console.log(participantsArray)
+                for (let i = 0; i < participantsArray.length; i++) {
+                    console.log("test")
+                    console.log(user._id)
+                    console.log(participantsArray[i]._id)
+                    let p = participantsArray[i]._id
 
-                if (user._id = p) {
-                   console.log("1")
-                    participantsArray.splice(i, 1)
+                    if (user._id = p) {
+                       console.log("1")
+                        participantsArray.splice(i, 1)
+                    }
                 }
+                await studygroup.save()
+                res.send(studygroup)
             }
-            await studygroup.save()
-            res.send(studygroup)
-        }
+        
 
     }
     catch (e) {
@@ -233,7 +235,6 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         res.status(500).send("Error saving study group")
     }
 })
-
 
 
 router.delete('/studygroup/:id', auth, async (req, res) => {
